@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  A box that sub divides when you click it.
+-->
+
+<scene>
+  <spawn position="0 10 10" />
+  <box id="pregnant" style="color: #ff00aa" position='0 0.5 0' />
+
+  <fog near="5" far="20" style="color: black" />
+
+  <skybox style="color: linear-gradient(#000, #444)" />
+
+  <plane style="texture-map: url(/images/stone-tiles.jpg); texture-repeat: 1000 1000;" scale="1000 1000 0.1" position="0 0.01 0" rotation="-1.5708 0 0" />
+
+  <billboard position="-2 1 0">
+    <![CDATA[
+      <center style="margin-top: 40px; color: #555; font-size: 30px">
+        This box is pregnant. <b>Click it to make more boxes!</b>. Don't create too many
+        boxes.
+      </center>
+    ]]>
+  </billboard>
+
+  <billboard position="5 1 0">
+    <![CDATA[
+      <center style="margin-top: 40px; color: #555; font-size: 30px">
+        Note that boxes can move through other boxes. This is because we don't simulate
+        physics on the server, only on the client, so impossible things like boxes moving through
+        other boxes is possible.
+      </center>
+    ]]>
+  </billboard>
+
+  <link href="/color-change.xml" position="-2 1 0.3" />
+
+  <script>
+    function addHandler(el){
+      el.addEventListener("click", function(e){
+        var vector = e.player.position.clone().sub(el.position).normalize();
+        vector.setY(0);
+
+        var sidewaysVector = vector.clone();
+        sidewaysVector.applyAxisAngle(new Vector(0,1,0), Math.PI / 2).multiplyScalar(2.0);
+
+        vector.multiplyScalar(-5.0);
+
+        var newEl = document.createElement("box");
+        newEl.position = el.position;
+        newEl.style.color = (el.style.color == "#ff00aa" ? "#0077ff" : "#ff00aa");
+        document.scene.appendChild(newEl);
+        addHandler(newEl);
+
+        el.position.add(vector).add(sidewaysVector);
+        newEl.position.add(vector).sub(sidewaysVector);
+      });
+    }
+
+    document.addEventListener("ready", function(event) {
+      addHandler(document.getElementById("pregnant"));
+    });
+  </script>
+</scene>
