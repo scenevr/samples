@@ -14,7 +14,6 @@
     You can put your code in an external file. Use the provided gulpfile to rebuild
     src/wave.js on demand
   -->
-  <script src="./dist/wave.js">
-  </script>
+  <script src="./dist/wave.js"></script>
 
 </scene>
