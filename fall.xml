@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ 
+ <!--
+
+    A bunch of boxes in a wave
+
+-->
+
+<scene>
+
+  <spawn position="5 5 5" />
+  
+  <!--
+    You can put your code in an external file. Use the provided gulpfile to rebuild
+    src/wave.js on demand
+  -->
+  <script src="./dist/fall.js"></script>
+
+</scene>
